@@ -1,0 +1,174 @@
+0.1)
+
+Herramientas del debugger:
+
+- Into: Muestra la ejecución de cada mensaje en el contexto actual. Saltea los mensajes redundantes como +,:= (aunque creo que esto no era un mensaje!) y el return.
+
+- Over: No muestra la ejecución del mensaje. Solo se ejecuta.
+
+- Through: No encontré la diferencia con Over.
+
+Al hacer click en Restart se reinicia la ejecución del método actual. Se vuelve a la primer linea de código ejecutable y las variables locales se reestablecen.
+
+Al llegar a la última línea de código de m2, var tiene el valor de 43. Al hacer click en restart se vuelve al inicio, pero el valor de var no se reestablece (pues no es una variable local). Justo en este caso no nos importa, porque no cambia en nada el ciclo de ejecución.
+
+1.1)
+
+a)
+x := Array with:  5 with: 4 with: 3 with: 2 
+
+x at: 1 put: 42 
+
+Reemplaza lo que está en la posición 1 por 42.
+
+x add: 5 Da error. También intenté con x at:put: pero el índice que recibe en at: debe estar dentro del rango del array.
+
+Los arrays no son dinámicos.
+
+b)
+
+x:= OrderedCollection with: 4 with: 3 with: 2 with: 1. 
+
+x add: 2.
+
+x add: 42.
+
+x count: [: y | y =2]. Devuelve 2.
+
+c)
+
+x := Set with: 4 with: 3 with: 2 with: 1.
+
+x add: 2.
+
+x add: 42.
+
+x count: [:y | y =2]. 1 .
+
+d)
+x := Dictionary new.
+x add: #a->4; add: #b->3; add: #c->1; add: #d->2; yourself.
+
+x at: #e put: 42.
+
+x size 5 .
+
+x keys #(#b #a #e #d #c) .
+
+x values #(3 4 42 2 1) .
+
+x at: #a 4 .
+
+x at: #z ifAbsent: 43  43 .
+
+1.2)
+
+e)
+x := Array with: 5 with: 4 with: 3 with: 2.
+
+x asOrderedCollection . an OrderedCollection(3 4 42 2 1) .
+
+x asSet. a Set(42 2 4 1 3) .
+
+f)
+
+x := Set with: 4 with: 3 with: 2 with: 1.
+
+x asArray. #(3 4 42 2 1) .
+
+g)
+x := Dictionary new.
+x add: #a->4; add: #b->3; add: #c->1; add: #d->2; yourself.
+
+x asArray #(3 4 42 2 1) .
+Ignora las claves y solo pone los valores en un Array.
+
+1.5)
+
+Do it: Ejecuta el bloque de código seleccionado.
+Print it: Ejecuta el bloque de código seleccionado e imprime lo que retorna ese bloque.
+Inspect it: Permite inspeccionar el objeto que retorna, para esto también ejecuta el bloque de código (sino ese objeto solo seria nil, y no habria mucho que inspeccionar).
+
+Explore it: No entendi muy bien.
+
+Debug it: Abre el debugger para ejecutar ese bloque de código.
+
+
+1.8)
+
+| elements odds |
+
+​ elements:= #(1 3 5 7 9).
+​
+​ odds := OrderedCollection new.
+​
+elements do: [ :e | e odd ifTrue: [odds add: e]].
+​
+^odds .    
+
+La nueva implementación no tiene que indexar el array, el método es mucho más corto y mas declarativo.
+
+1.9)
+
+| elements  |
+
+​ elements:= #(1 3 5 7 9).
+​
+elements select: [ :e | e odd ].
+​
+^elements .   
+
+Nos ahorramos declarar un array nuevo y un if.
+
+1.10)
+
+| elements  x|
+
+​ elements:= #(1 3 5 7 9).
+​
+x := elements collect: [ :e | e * 2].
+​
+^x .   
+
+
+1.13)
+
+Primero con whileTrue:
+
+
+| elements  x index|
+
+​ elements:= #(1 3 5 7 9).
+​ x := OrderedCollection new.
+ index := 1.
+
+[index <= elements size] whileTrue: [
+	
+	 (elements at: index) even ifTrue: [ ^(elements at: index)].
+	 index := index + 1 ].
+​
+^'no hay numero par'. 
+
+
+
+conDo:
+
+| elements  x|
+
+​ elements:= #(1 2 5 7 9).
+​ x := OrderedCollection new.
+
+elements do: [: e | e even ifTrue: [ ^e] ].
+​
+^'no hya numero par'.    2 . 
+
+
+con detect:
+
+|elements|.
+
+elements := # (1 3 3 5 7).
+
+elements detect: [: e | e even] ifNone: [^' No hay número par']. 
+
+
