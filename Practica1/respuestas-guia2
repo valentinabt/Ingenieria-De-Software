@@ -171,4 +171,182 @@ elements := # (1 3 3 5 7).
 
 elements detect: [: e | e even] ifNone: [^' No hay número par']. 
 
+1.16)
+
+|elements index sum |.
+
+elements := # (1 2 3 4).
+
+sum := 0.
+
+index := 1.
+
+[index <= elements size] whileTrue: [ sum := sum + (elements at: index).
+	
+	index := index + 1.
+	
+	].
+
+^sum
+
+|elements  sum |.
+
+elements := # (1 2 3 4).
+
+sum := 0.
+
+
+
+elements do:  [ :e | sum := sum + e
+	].
+
+^sum 10 .
+
+|elements|.
+
+elements := # (1 2 3 4).
+
+^elements sum 10 .
+
+
+|elements|.
+
+elements := # (1 2 3 4).
+
+^elements inject: 0 into: [: e : acc |  acc + e ] 10 .
+
+1.18)
+
+|w i v |.
+
+w := 'ingenieria'.
+
+i := 1.
+
+v := ''.
+
+[i <= w size] whileTrue: [ (w at: i) isVowel ifTrue: [v := v , (w at: i) asString].
+	
+	i := i + 1.
+	
+	].
+
+^v 'ieieia' .
+
+con select:
+
+|w |.
+
+w := 'ingenieria'.
+
+w select: [: i | i isVowel]. 'ieieia' .
+
+2)
+
+¿Qué valor retorna un Block cuando se evalúa (con value)?
+
+El valor que retona un block cuando se evalúa es el valor de retorno de la ejecución del código dentro del bloque.
+
+2.1)
+| x |
+x := [ y := 1. z := 2. ].
+x value. 
+No da error aunque las variables no estén inicializadas.
+
+2.2)
+| x |
+x := [ y := 1. z := 2. ].
+x value.
+y.
+
+No pasa nada. Yo esperaba que dé error.
+
+2.3)
+
+Dé un ejemplo de un bloque con dos parámetros y su
+evaluación.
+
+|bloque|.
+
+bloque := [:x : y | x + y].
+
+bloque value: 1 value: 2 3 .
+
+4.2)
+
+Tira el error el MessageNotUnderstood. No se pueden sumar dos números de distintas unidades.
+10 * peso + 10 * dollar
+
+Pero si hacemos 10 * peso + (10 * dollar) no tira el error.
+Si intentamos sumar cosas de distintas unidades retorna la misma suma, pero no el resultado.
+
+4.4)
+El peso es una BaseUnit.
+
+4.5)
+
+El $$ es el nuevo símbolo de la unidad peso.
+
+
+4.9)
+
+
+metros := BaseUnit nameForOne: 'metro' nameForMany: 'metros'.
+
+centimetros := ProportionalDerivedUnit baseUnit: metros conversionFactor: 100 nameForOne: centimetro nameForMany: centimetros sign: cm.
+
+
+
+(10 * metros) + (500 * centimetros).
+
+4.10)
+
+metros := BaseUnit nameForOne: 'metro' nameForMany: 'metros'.
+diezMetros := 10 * metros.
+pulgadas := ProportionalDerivedUnit baseUnit: metros conversionFactor: 0.0254 nameForOne: 'pulgada' nameForMany: 'pulgadas' sign: p.
+sesentaPulgadas := 60 * pulgadas.
+
+diezMetros + sesentaPulgadas 11.524000000000001 * metros .
+
+5)
+a)
+DateAndTime fromSeconds: 0.  1901-01-01T00:00:00-03:00 .
+(DateAndTime fromSeconds: 0) + (Duration days: 1). 1901-01-02T00:00:00-03:00 .
+Time now. 8:25:46.153486 pm .
+Time hour: 1 minute: 2 second: 4.Time now + (Duration hours: 1) 0:01:00:00 . "FALLA porque no es un timespan"
+(DateAndTime fromSeconds: 0) + (Duration days: 1). 1901-01-02T00:00:00-03:00 .
+Date today. 9 September 2025 .
+Date newDay: 1 month: 2 year: 3 . 1 February 3 .
+
+5.2)
+
+FixedGregorianDate today. September 9, 2025 .
+FixedGregorianDate today next next. September 11, 2025 .
+GregorianDateTime now. September 9, 2025 at 20:28:10 .
+GregorianDateTime now next. September 9, 2025 at 20:28:15 .
+GregorianDateTime now next distanceFrom: GregorianDateTime now. 1/86400 * days .
+(GregorianDateTime now next distanceFrom: GregorianDateTime now) convertTo: second /
+millisecond.
+TimeOfDay now. 20:28:49 .
+TimeOfDay now next: (30 * hour).
+FixedGregorianDate today year. Year 2025 .
+FixedGregorianDate today month. September .
+FixedGregorianDate today monthOfYear. September of Year 2025 .
+
+5.3)
+(FixedGregorianDate today) day Tuesday .
+
+5.4)
+(FixedGregorianDate today) + 24* second da error, y con GregorianDateTime también.
+
+5.5)
+
+2024 isLeap  -> Da error: En este contexto, el 2024 es un número entero, no un año.
+(April, 2024) year isLeap true . -> Este si funciona
+
+5.6)
+
+TimeOfDay now next: (1*hour) 21:41:12 .
+
+
 
